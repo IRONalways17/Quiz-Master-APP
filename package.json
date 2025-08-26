@@ -1,0 +1,41 @@
+{
+  "name": "quizmaster-v2",
+  "version": "1.0.0",
+  "description": "Quiz Master V2 - Complete Development Environment",
+  "private": true,
+  "scripts": {
+    "dev": "node dev-start.js",
+    "dev:bash": "./start-dev.sh",
+    "dev:frontend": "cd frontend && npm run dev",
+    "dev:backend": "cd backend && python3 run.py",
+    "dev:redis": "redis-server --daemonize yes",
+    "dev:celery-worker": "cd backend && celery -A celery_app worker --loglevel=info",
+    "dev:celery-beat": "cd backend && celery -A celery_app beat --loglevel=info",
+    "dev:all": "concurrently \"npm run dev:redis\" \"npm run dev:backend\" \"npm run dev:celery-worker\" \"npm run dev:celery-beat\" \"npm run dev:frontend\" --names \"Redis,Backend,Celery-Worker,Celery-Beat,Frontend\" --prefix-colors \"red,blue,magenta,cyan,green\"",
+    "kill:all": "pkill -f \"python.*run.py\" && pkill -f \"celery.*worker\" && pkill -f \"celery.*beat\" && pkill -f \"vite.*5175\" && pkill -f \"npm.*dev\" && pkill -f \"redis-server\"",
+    "clean": "npm run kill:all && sleep 2",
+    "setup": "cd backend && python3 -m venv venv && source venv/bin/activate && pip install -r requirements.txt && cd ../frontend && npm install",
+    "start": "npm run dev"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  },
+  "engines": {
+    "node": ">=16.0.0",
+    "npm": ">=8.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yourusername/quizmaster-v2.git"
+  },
+  "keywords": [
+    "quiz",
+    "education",
+    "flask",
+    "vue",
+    "redis",
+    "celery"
+  ],
+  "author": "Aaryan Choudhary",
+  "license": "MIT"
+} 
