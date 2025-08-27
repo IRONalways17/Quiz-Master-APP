@@ -15,13 +15,15 @@
     "kill:all": "pkill -f \"python.*run.py\" && pkill -f \"celery.*worker\" && pkill -f \"celery.*beat\" && pkill -f \"vite.*5175\" && pkill -f \"npm.*dev\" && pkill -f \"redis-server\"",
     "clean": "npm run kill:all && sleep 2",
     "setup": "cd backend && python3 -m venv venv && source venv/bin/activate && pip install -r requirements.txt && cd ../frontend && npm install",
-    "start": "npm run dev"
+    "start": "npm run dev",
+    "build": "cd frontend && npm install && npm run build",
+    "heroku-postbuild": "cd frontend && npm install && npm run build"
   },
   "devDependencies": {
     "concurrently": "^8.2.2"
   },
   "engines": {
-    "node": ">=16.0.0",
+    "node": "18.x",
     "npm": ">=8.0.0"
   },
   "repository": {
