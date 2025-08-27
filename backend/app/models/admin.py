@@ -1,6 +1,6 @@
 from datetime import datetime
 import bcrypt
-from app.database import db
+from backend.app.database import db
 
 class Admin(db.Model):
     __tablename__ = 'admins'

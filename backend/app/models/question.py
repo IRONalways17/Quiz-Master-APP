@@ -1,7 +1,7 @@
 from datetime import datetime
 from sqlalchemy.orm import relationship
 import json
-from app.database import db
+from backend.app.database import db
 
 class Question(db.Model):
     __tablename__ = 'questions'

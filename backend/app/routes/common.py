@@ -1,10 +1,10 @@
 from flask import Blueprint, request, jsonify
-from app.database import db
-from app.models import Subject, Chapter, Quiz, Question, User
-from app.utils.auth import jwt_required_custom, get_jwt
+from backend.app.database import db
+from backend.app.models import Subject, Chapter, Quiz, Question, User
+from backend.app.utils.auth import jwt_required_custom, get_jwt
 from sqlalchemy import or_
 from flask import jsonify
-from app.database import db
+from backend.app.database import db
 from app import redis_client
 from celery_app import celery
 import redis
@@ -186,7 +186,7 @@ def search():
 def global_leaderboard():
     """Get global leaderboard across all quizzes"""
     try:
-        from app.models import Score
+        from backend.app.models import Score
         from app import redis_client
         import json
         

@@ -1,7 +1,7 @@
 from flask import Blueprint, request, jsonify
-from app.database import db
-from app.models import Subject, Chapter, Quiz, Score, Reminder, User
-from app.utils.auth import user_required, get_current_user_id
+from backend.app.database import db
+from backend.app.models import Subject, Chapter, Quiz, Score, Reminder, User
+from backend.app.utils.auth import user_required, get_current_user_id
 from app import redis_client
 import json
 from datetime import datetime
@@ -553,7 +553,7 @@ def get_performance_trend():
 def get_profile():
     """Get user profile information"""
     try:
-        from app.utils.auth import get_current_user
+        from backend.app.utils.auth import get_current_user
         user = get_current_user()
         
         if not user:
@@ -571,7 +571,7 @@ def get_profile():
 def update_profile():
     """Update user profile"""
     try:
-        from app.utils.auth import get_current_user
+        from backend.app.utils.auth import get_current_user
         user = get_current_user()
         
         if not user:

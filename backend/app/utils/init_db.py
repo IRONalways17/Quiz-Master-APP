@@ -1,5 +1,5 @@
-from app.database import db
-from app.models import Admin
+from backend.app.database import db
+from backend.app.models import Admin
 from flask import current_app
 
 def create_default_admin():

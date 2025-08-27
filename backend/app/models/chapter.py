@@ -1,6 +1,6 @@
 from datetime import datetime
 from sqlalchemy.orm import relationship
-from app.database import db
+from backend.app.database import db
 from sqlalchemy.ext.hybrid import hybrid_property
 import re
 
@@ -87,7 +87,7 @@ class Chapter(db.Model):
     def get_duplicate_names(cls):
         """Get chapter names used across multiple subjects"""
         from sqlalchemy import func
-        from app.database import db
+        from backend.app.database import db
         
         result = db.session.query(
             cls.name,

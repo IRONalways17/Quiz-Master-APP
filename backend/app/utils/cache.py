@@ -153,7 +153,7 @@ def cache_user_data(expiry=600):
     def decorator(f):
         @wraps(f)
         def decorated_function(*args, **kwargs):
-            from app.utils.auth import get_current_user_id
+            from backend.app.utils.auth import get_current_user_id
             
             user_id = get_current_user_id()
             if not user_id:

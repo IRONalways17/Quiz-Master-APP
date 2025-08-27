@@ -77,7 +77,7 @@ def create_app(config_class=Config):
         db.create_all()
         
         # Create default admin if not exists
-        from app.utils.init_db import create_default_admin
+        from backend.app.utils.init_db import create_default_admin
         create_default_admin()
     
     # Serve frontend static files

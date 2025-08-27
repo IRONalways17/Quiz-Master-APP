@@ -1,7 +1,7 @@
 from flask import Blueprint, request, jsonify
-from app.database import db
-from app.models import Quiz, Question, Score
-from app.utils.auth import user_required, get_current_user_id
+from backend.app.database import db
+from backend.app.models import Quiz, Question, Score
+from backend.app.utils.auth import user_required, get_current_user_id
 from app import redis_client
 from datetime import datetime
 import json

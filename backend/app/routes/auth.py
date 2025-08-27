@@ -1,8 +1,8 @@
 from flask import Blueprint, request, jsonify
 from flask_jwt_extended import create_access_token, create_refresh_token, jwt_required, get_jwt_identity
 from datetime import datetime
-from app.database import db
-from app.models import User, Admin
+from backend.app.database import db
+from backend.app.models import User, Admin
 from app import limiter
 import re
 
@@ -188,7 +188,7 @@ def refresh():
 def get_current_user():
     """Get current user information"""
     try:
-        from app.utils.auth import get_current_user
+        from backend.app.utils.auth import get_current_user
         user = get_current_user()
         
         if not user:
@@ -204,7 +204,7 @@ def get_current_user():
 def update_profile():
     """Update user profile information"""
     try:
-        from app.utils.auth import get_current_user
+        from backend.app.utils.auth import get_current_user
         user = get_current_user()
         
         if not user:
@@ -247,7 +247,7 @@ def update_profile():
 def change_password():
     """Change user password"""
     try:
-        from app.utils.auth import get_current_user
+        from backend.app.utils.auth import get_current_user
         user = get_current_user()
         
         if not user:

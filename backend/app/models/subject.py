@@ -1,6 +1,6 @@
 from datetime import datetime
 from sqlalchemy.orm import relationship
-from app.database import db
+from backend.app.database import db
 from sqlalchemy.ext.hybrid import hybrid_property
 import re
 
