@@ -3,9 +3,6 @@ from backend.app.database import db
 from backend.app.models import Subject, Chapter, Quiz, Question, User
 from backend.app.utils.auth import jwt_required_custom, get_jwt
 from sqlalchemy import or_
-from flask import jsonify
-from backend.app.database import db
-from celery_app import celery
 from sqlalchemy import text
 
 common_bp = Blueprint('common', __name__)
@@ -38,19 +35,11 @@ def health_check():
     
     # Redis removed from health check
     
-    # Test Celery connection
-    try:
-        # Test Celery broker connection
-        celery.control.inspect().active()
-        health_status['services']['celery'] = {
-            'status': 'healthy',
-            'message': 'Celery connection successful'
-        }
-    except Exception as e:
-        health_status['services']['celery'] = {
-            'status': 'warning',
-            'message': f'Celery connection failed (normal in WSL2): {str(e)}'
-        }
+    # Celery connection test disabled (Celery not essential for core functionality)
+    health_status['services']['celery'] = {
+        'status': 'disabled',
+        'message': 'Celery background tasks disabled'
+    }
         # Don't mark overall status as unhealthy for Celery issues in WSL2
     
     return jsonify(health_status), 200 if health_status['status'] == 'healthy' else 503
