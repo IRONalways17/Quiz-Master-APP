@@ -1123,8 +1123,10 @@ def get_cache_stats():
     except Exception as e:
         return jsonify({'error': str(e)}), 500
 
+# Temporarily disable cache routes
+"""
 @admin_bp.route('/cache/clear', methods=['POST'])
-@admin_required
+@admin_required  
 def clear_cache():
     """Clear cache by pattern or all cache"""
     try:
@@ -1158,3 +1160,4 @@ def clear_cache():
         
     except Exception as e:
         return jsonify({'error': str(e)}), 500 
+""" 
