@@ -1070,56 +1070,6 @@ def get_cache_stats():
         # Redis temporarily disabled
         return jsonify({'error': 'Redis cache is temporarily disabled'}), 503
         
-        # Get cache key patterns
-        cache_patterns = {
-            'users': len(list(#redis_client.scan_iter(match='user:*'))),
-            'admin': len(list(#redis_client.scan_iter(match='admin:*'))),
-            'subjects': len(list(#redis_client.scan_iter(match='subjects:*'))),
-            'chapters': len(list(#redis_client.scan_iter(match='chapters:*'))),
-            'quizzes': len(list(#redis_client.scan_iter(match='quizzes:*'))),
-            'stats': len(list(#redis_client.scan_iter(match='stats:*'))),
-            'global': len(list(#redis_client.scan_iter(match='global:*')))
-        }
-        
-        # Get sample keys with TTL
-        all_keys = list(#redis_client.scan_iter())
-        sample_keys = []
-        for key in all_keys[:20]:  # Show first 20 keys
-            try:
-                ttl = #redis_client.ttl(key)
-                size = len(str(#redis_client.get(key) or ''))
-                sample_keys.append({
-                    'key': key,
-                    'ttl': ttl if ttl > 0 else 'persistent',
-                    'size_bytes': size
-                })
-            except Exception:
-                continue
-        
-        stats = {
-            'redis_info': {
-                'connected_clients': info.get('connected_clients', 0),
-                'used_memory_human': info.get('used_memory_human', '0B'),
-                'used_memory_peak_human': info.get('used_memory_peak_human', '0B'),
-                'total_commands_processed': info.get('total_commands_processed', 0),
-                'keyspace_hits': info.get('keyspace_hits', 0),
-                'keyspace_misses': info.get('keyspace_misses', 0),
-                'uptime_in_seconds': info.get('uptime_in_seconds', 0)
-            },
-            'cache_patterns': cache_patterns,
-            'total_keys': len(all_keys),
-            'sample_keys': sample_keys,
-            'hit_rate': 0
-        }
-        
-        # Calculate hit rate
-        hits = stats['redis_info']['keyspace_hits']
-        misses = stats['redis_info']['keyspace_misses']
-        if hits + misses > 0:
-            stats['hit_rate'] = round(hits / (hits + misses) * 100, 2)
-        
-        return jsonify(stats), 200
-        
     except Exception as e:
         return jsonify({'error': str(e)}), 500
 
