@@ -171,6 +171,13 @@ Students can register their own accounts or use the following test credentials:
 - **Password**: `student123`
 
 ## Project Architecture
+<img width="1917" height="915" alt="Screenshot 2025-08-27 110109" src="https://github.com/user-attachments/assets/edf924e6-6646-4ea8-88e1-31799978a5e2" />
+<img width="1919" height="914" alt="Screenshot 2025-08-27 110126" src="https://github.com/user-attachments/assets/ab1709dc-02f8-49b5-87fa-9267c870bd83" />
+<img width="1918" height="910" alt="Screenshot 2025-08-27 110118" src="https://github.com/user-attachments/assets/7bd91c3f-bd23-4f4f-a133-173bb2f5a474" />
+<img width="1919" height="906" alt="image" src="https://github.com/user-attachments/assets/d3af34ef-1d14-4323-ae77-bf537162475d" />
+<img width="1900" height="910" alt="image" src="https://github.com/user-attachments/assets/5174130a-8ed1-49ee-ba25-3b8f02fdfa19" />
+
+
 
 ```
 Quiz-Master-APP/
@@ -563,10 +570,10 @@ This project was inspired by the need for accessible, modern quiz management sys
 ### Contact Information
 - **GitHub**: [@IRONalways17](https://github.com/IRONalways17)
 - **Project Repository**: [Quiz-Master-APP](https://github.com/IRONalways17/Quiz-Master-APP)
-- **Live Demo**: [https://quiz-master-app.herokuapp.com](https://quiz-master-app.herokuapp.com)
-
+- **Live Demo**: https://quiz-master-app-ac5220ea7bd7.herokuapp.com
 ---
 
 **Built with care for the education community**
+
 
 *This project represents a commitment to open-source education technology and modern web development practices. We believe in making quality educational tools accessible to everyone.* 
