@@ -25,15 +25,11 @@ class Config:
     # CORS - Allow all origins for Heroku deployment
     CORS_ORIGINS = os.getenv('CORS_ORIGINS', '*').split(',')
     
-    # Redis - Handle Redis URL for Heroku
-    REDIS_URL = os.getenv('REDIS_URL', 'redis://localhost:6379/0')
+    # Celery (using SQLite as backend instead of Redis)
+    CELERY_BROKER_URL = os.getenv('CELERY_BROKER_URL', 'sqla+sqlite:///celery.db')
+    CELERY_RESULT_BACKEND = os.getenv('CELERY_RESULT_BACKEND', 'db+sqlite:///celery.db')
     
-    # Celery
-    CELERY_BROKER_URL = os.getenv('CELERY_BROKER_URL', os.getenv('REDIS_URL', 'redis://localhost:6379/1'))
-    CELERY_RESULT_BACKEND = os.getenv('CELERY_RESULT_BACKEND', os.getenv('REDIS_URL', 'redis://localhost:6379/2'))
-    
-    # Rate Limiting
-    RATELIMIT_STORAGE_URL = os.getenv('REDIS_URL', 'redis://localhost:6379/0')
+    # Rate Limiting (using memory storage)
     RATELIMIT_DEFAULT = os.getenv('API_RATE_LIMIT', '100 per hour')
     
     # Admin

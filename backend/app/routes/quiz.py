@@ -87,14 +87,7 @@ def start_quiz(quiz_id):
             'attempt_number': attempts + 1
         }
         
-        # Store session for duration + 10 minutes buffer
-        if #redis_client:
-            #redis_client.setex(
-                session_key, 
-                (quiz.duration_minutes + 10) * 60, 
-                json.dumps(session_data)
-            )
-        
+        # Session storage removed - quiz sessions will be handled without Redis
         return jsonify({
             'message': 'Quiz started successfully',
             'quiz': quiz.to_dict(),
@@ -122,16 +115,8 @@ def submit_quiz(quiz_id):
         if not quiz:
             return jsonify({'error': 'Quiz not found'}), 404
         
-        # Get quiz session
-        session_key = f'quiz_session:{user_id}:{quiz_id}'
-        session_data = None
-        if #redis_client:
-            cached = #redis_client.get(session_key)
-            if cached:
-                session_data = json.loads(cached)
-        
-        if not session_data:
-            return jsonify({'error': 'Quiz session not found or expired'}), 403
+        # Session storage removed - skip session validation for now
+        # Note: In production, implement proper session management without Redis
         
         # Get all questions
         questions = Question.query.filter_by(
@@ -155,6 +140,9 @@ def submit_quiz(quiz_id):
         percentage = (earned_points / total_points * 100) if total_points > 0 else 0
         passed = percentage >= quiz.passing_score
         
+        # Get attempt number
+        existing_attempts = Score.query.filter_by(user_id=user_id, quiz_id=quiz_id).count()
+        
         # Create score record
         score = Score(
             user_id=user_id,
@@ -163,9 +151,9 @@ def submit_quiz(quiz_id):
             max_score=total_points,
             percentage=percentage,
             passed=passed,
-            started_at=datetime.fromisoformat(session_data['started_at']),
+            started_at=datetime.utcnow(),  # Use current time since session is not tracked
             completed_at=datetime.utcnow(),
-            attempt_number=session_data['attempt_number']
+            attempt_number=existing_attempts + 1
         )
         score.set_answers(data['answers'])
         score.calculate_time_taken()
@@ -173,12 +161,7 @@ def submit_quiz(quiz_id):
         db.session.add(score)
         db.session.commit()
         
-        # Clear quiz session
-        if #redis_client:
-            #redis_client.delete(session_key)
-            # Clear user's cached data
-            #redis_client.delete(f'user:{user_id}:available_quizzes')
-            #redis_client.delete(f'user:{user_id}:dashboard:stats')
+        # Session management removed - no cache invalidation needed
         
         # Prepare result with explanations
         question_results = []
@@ -223,12 +206,7 @@ def get_quiz_leaderboard(quiz_id):
         if not quiz:
             return jsonify({'error': 'Quiz not found'}), 404
         
-        # Cache key for leaderboard
-        cache_key = f'quiz:{quiz_id}:leaderboard'
-        cached = #redis_client.get(cache_key) if #redis_client else None
-        if cached:
-            return jsonify(json.loads(cached)), 200
-        
+        # Cache removed - fetch data directly
         # Get top 10 scores for this quiz
         top_scores = db.session.query(
             Score,
@@ -255,10 +233,7 @@ def get_quiz_leaderboard(quiz_id):
             'leaderboard': leaderboard
         }
         
-        # Cache for 10 minutes
-        if #redis_client:
-            #redis_client.setex(cache_key, 600, json.dumps(data))
-        
+        # Cache removed - return data directly
         return jsonify(data), 200
         
     except Exception as e:

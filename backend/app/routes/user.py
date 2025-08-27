@@ -7,10 +7,6 @@ from datetime import datetime
 
 user_bp = Blueprint('user', __name__)
 
-def get_#redis_client():
-    """Get redis client from current app"""
-    return None  # Temporarily disabled for deployment
-
 @user_bp.route('/recent-activity', methods=['GET'])
 @user_required
 def get_recent_activity():
@@ -234,13 +230,7 @@ def get_user_available_quizzes():
     """Get available quizzes for user"""
     user_id = get_current_user_id()
     
-    cache_key = f'user:{user_id}:available_quizzes'
-    #redis_client = get_#redis_client()
-    if #redis_client:
-        cached = #redis_client.get(cache_key)
-        if cached:
-            return jsonify(json.loads(cached))
-    
+    # Cache removed - fetch data directly from database
     quizzes = Quiz.query.filter_by(is_active=True).all()
     available_quizzes = []
     
@@ -261,9 +251,6 @@ def get_user_available_quizzes():
         available_quizzes.append(quiz_dict)
     
     data = {'quizzes': available_quizzes}
-    if #redis_client:
-        #redis_client.setex(cache_key, 300, json.dumps(data))
-    
     return jsonify(data)
 
 @user_bp.route('/scores', methods=['GET'])
@@ -453,12 +440,7 @@ def get_user_stats():
     try:
         user_id = get_current_user_id()
         
-        # Cache key specific to user
-        cache_key = f'user:{user_id}:dashboard:stats'
-        cached = #redis_client.get(cache_key) if #redis_client else None
-        if cached:
-            return jsonify(json.loads(cached)), 200
-        
+        # Cache removed - calculate directly
         # Calculate statistics
         total_attempts = Score.query.filter_by(user_id=user_id).count()
         passed_attempts = Score.query.filter_by(user_id=user_id, passed=True).count()
@@ -488,10 +470,7 @@ def get_user_stats():
             'recent_scores': [score.to_dict() for score in recent_scores]
         }
         
-        # Cache for 5 minutes
-        if #redis_client:
-            #redis_client.setex(cache_key, 300, json.dumps(stats))
-        
+        # Cache removed - return directly
         return jsonify(stats), 200
         
     except Exception as e:
@@ -505,12 +484,7 @@ def get_performance_trend():
         from datetime import datetime, timedelta
         user_id = get_current_user_id()
         
-        # Cache key specific to user
-        cache_key = f'user:{user_id}:performance:trend'
-        cached = #redis_client.get(cache_key) if #redis_client else None
-        if cached:
-            return jsonify(json.loads(cached)), 200
-        
+        # Cache removed - calculate directly
         # Get scores from the last 10 attempts for attempt-based view
         scores = Score.query.filter(
             Score.user_id == user_id
@@ -543,10 +517,7 @@ def get_performance_trend():
             'total_attempts': len(scores)
         }
         
-        # Cache for 10 minutes (shorter since this is attempt-based)
-        if #redis_client:
-            #redis_client.setex(cache_key, 600, json.dumps(result))
-        
+        # Cache removed - return directly
         return jsonify(result), 200
         
     except Exception as e:
@@ -893,11 +864,7 @@ def submit_quiz(quiz_slug):
         db.session.add(score)
         db.session.commit()
         
-        # Clear cache
-        if #redis_client:
-            #redis_client.delete(f'user:{user_id}:available_quizzes')
-            #redis_client.delete(f'user:{user_id}:dashboard:stats')
-        
+        # Cache removed - no cache invalidation needed
         return jsonify({
             'message': 'Quiz submitted successfully',
             'score': {
@@ -971,11 +938,7 @@ def submit_quiz_by_id(quiz_id):
         db.session.add(score)
         db.session.commit()
         
-        # Clear cache
-        if #redis_client:
-            #redis_client.delete(f'user:{user_id}:available_quizzes')
-            #redis_client.delete(f'user:{user_id}:dashboard:stats')
-        
+        # Cache removed - no cache invalidation needed
         return jsonify({
             'message': 'Quiz submitted successfully',
             'score': {

@@ -3,7 +3,6 @@ from flask_cors import CORS
 from flask_jwt_extended import JWTManager
 from flask_limiter import Limiter
 from flask_limiter.util import get_remote_address
-import redis
 import sys
 import os
 sys.path.append('..')
@@ -12,8 +11,7 @@ from backend.app.database import db
 
 # Initialize extensions
 jwt = JWTManager()
-redis_client = None
-limiter = None  # Will be initialized after Redis
+limiter = None
 
 def create_app(config_class=Config):
     """Create and configure the Flask application"""
@@ -31,29 +29,12 @@ def create_app(config_class=Config):
          allow_headers=['Content-Type', 'Authorization'],
          methods=['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'])
     
-    # Initialize Redis
-    global redis_client, limiter
-    redis_client = redis.from_url(app.config['REDIS_URL'], decode_responses=True)
-    
-    # Test Redis connection
-    try:
-        redis_client.ping()
-        print("✓ Redis connection established")
-    except Exception as e:
-        print(f"✗ Redis connection failed: {e}")
-        redis_client = None
-    
-    # Initialize rate limiter with Redis storage
-    if redis_client:
-        limiter = Limiter(
-            key_func=get_remote_address,
-            storage_uri=app.config['REDIS_URL'],
-            default_limits=["200000 per day", "5000 per hour"]
-        )
-    else:
-        # Fallback to memory storage
-        limiter = Limiter(key_func=get_remote_address)
-    
+    # Initialize rate limiter with memory storage (Redis removed)
+    global limiter
+    limiter = Limiter(
+        key_func=get_remote_address,
+        default_limits=["200000 per day", "5000 per hour"]
+    )
     limiter.init_app(app)
     
     # Import models to ensure they're registered with SQLAlchemy

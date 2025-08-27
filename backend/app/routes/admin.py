@@ -7,16 +7,10 @@ import json
 
 admin_bp = Blueprint('admin', __name__)
 
-# Cache helper functions
+# Cache helper functions removed (Redis removed)
 def clear_cache_pattern(pattern):
-    """Clear Redis cache by pattern with improved error handling"""
-    try:
-        # Redis temporarily disabled
-        print(f"Cache clearing disabled for pattern: {pattern}")
-        return 0
-    except Exception as e:
-        print(f"Cache clear error for pattern {pattern}: {e}")
-        return 0
+    """Dummy function - cache clearing disabled since Redis is removed"""
+    pass
 
 # User Management
 @admin_bp.route('/users', methods=['GET'])
@@ -1074,14 +1068,13 @@ def get_cache_stats():
         return jsonify({'error': str(e)}), 500
 
 # Temporarily disable cache routes
-"""
-@admin_bp.route('/cache/clear', methods=['POST'])
-@admin_required  
-def clear_cache():
-    """Clear cache by pattern or all cache"""
-    try:
-        data = request.get_json() or {}
-        pattern = data.get('pattern', '*')
+# @admin_bp.route('/cache/clear', methods=['POST'])
+# @admin_required  
+# def clear_cache():
+#     """Clear cache by pattern or all cache"""
+#     try:
+#         data = request.get_json() or {}
+#         pattern = data.get('pattern', '*')
         
         # Redis disabled
         return jsonify({'error': 'Redis caching is currently disabled'}), 400
@@ -1109,5 +1102,4 @@ def clear_cache():
         }), 200
         
     except Exception as e:
-        return jsonify({'error': str(e)}), 500 
-""" 
+        return jsonify({'error': str(e)}), 500

@@ -6,7 +6,6 @@ from sqlalchemy import or_
 from flask import jsonify
 from backend.app.database import db
 from celery_app import celery
-import redis
 from sqlalchemy import text
 
 common_bp = Blueprint('common', __name__)
@@ -37,19 +36,7 @@ def health_check():
         }
         health_status['status'] = 'unhealthy'
     
-    # Test Redis connection
-    try:
-        # Redis temporarily disabled
-        health_status['services']['redis'] = {
-            'status': 'disabled',
-            'message': 'Redis temporarily disabled'
-        }
-    except Exception as e:
-        health_status['services']['redis'] = {
-            'status': 'unhealthy',
-            'message': f'Redis connection failed: {str(e)}'
-        }
-        health_status['status'] = 'unhealthy'
+    # Redis removed from health check
     
     # Test Celery connection
     try:
@@ -181,11 +168,7 @@ def global_leaderboard():
         from backend.app.models import Score
         import json
         
-        # Check cache (disabled)
-        cache_key = 'global:leaderboard'
-        cached = None  # Redis temporarily disabled
-        if cached:
-            return jsonify(json.loads(cached)), 200
+        # Cache removed - fetch data directly
         
         # Get top performers based on average score
         top_performers = db.session.query(
@@ -220,9 +203,7 @@ def global_leaderboard():
         
         data = {'leaderboard': leaderboard}
         
-        # Cache for 30 minutes (disabled)
-        # Redis temporarily disabled
-        
+        # Cache removed - return data directly
         return jsonify(data), 200
         
     except Exception as e:
