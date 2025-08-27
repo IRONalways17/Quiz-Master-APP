@@ -1,12 +1,12 @@
 # Quiz Master V2 - Advanced Quiz Management Platform
 
-Quiz Master V2 is a sophisticated, full-stack web application designed for educational institutions, training organizations, and online learning platforms. Built with modern technologies, it provides a comprehensive solution for creating, managing, and conducting interactive quizzes with detailed analytics and user management capabilities.
+Quiz Master V2 i## System Requirements a sophisticated, full-stack web application designed for educational institutions, training organizations, and online lear## API Documentationing platforms. Built with modern technologies, it provides a comprehensive solution for creating, managing, and conducting interactive quizzes with detailed ana## Development Workflowytics and user management capabilities.
 
-## 🎯 Project Overview
+## Project Overview
 
-This application serves as a complete quiz management ecosystem, enabling educators to create structured learning assessments while providing students with an intuitive interface for taking quizzes and tracking their academic progress. The system is architected to handle multiple subjects, chapters, and quiz variations while maintaining detailed performance analytics.
+This appli## Learning Resourcesation serves as a complete quiz manage## Support & Contactent ecosystem, enabling educators to create structured learning assessments while providing students with an intuitive interface for taking quizzes and tracking their academic progress. The system is architected to handle multiple subjects, chapters, and quiz variations while maintaining detailed performance analytics.
 
-## ✨ Core Features
+## Core Features
 
 ### Student Interface
 - **Interactive Quiz Engine**: Responsive quiz-taking interface with real-time feedback
@@ -31,7 +31,7 @@ This application serves as a complete quiz management ecosystem, enabling educat
 - **Scalable Architecture**: Designed to handle hundreds of concurrent users
 - **Database Optimization**: Efficient queries and data management
 
-## 🏗️ Technology Stack
+## Technology Stack
 
 ### Backend Framework
 - **Flask 2.3+**: Lightweight yet powerful Python web framework
@@ -60,7 +60,7 @@ This application serves as a complete quiz management ecosystem, enabling educat
 - **Node.js**: JavaScript runtime for frontend build processes
 - **Python Virtual Environment**: Isolated Python package management
 
-## 🎓 Educational Purpose
+## Educational Purpose
 
 This project demonstrates advanced full-stack development practices including:
 - **RESTful API Design**: Well-structured endpoints following REST principles
@@ -79,7 +79,7 @@ This project demonstrates advanced full-stack development practices including:
 - **Git**: Latest version
 - **Modern Web Browser**: Chrome, Firefox, Safari, or Edge
 
-## 🚀 Quick Start Guide
+## Quick Start Guide
 
 ### 1. Repository Setup
 ```bash
@@ -157,7 +157,7 @@ npm run build
 cp -r dist/* ../backend/static/
 ```
 
-## 🌐 Live Application
+## Live Application
 
 **Production URL**: [https://quiz-master-app.herokuapp.com](https://quiz-master-app.herokuapp.com)
 
@@ -170,7 +170,7 @@ Students can register their own accounts or use the following test credentials:
 - **Email**: `demo@student.com`
 - **Password**: `student123`
 
-## 📁 Project Architecture
+## Project Architecture
 
 ```
 Quiz-Master-APP/
@@ -252,7 +252,7 @@ Quiz-Master-APP/
 | GET | `/api/admin/questions` | Manage questions | Admin Token |
 | POST | `/api/admin/questions` | Create question | Admin Token |
 
-## 🗄️ Database Schema
+## Database Schema
 
 ### Core Entities
 
@@ -312,7 +312,7 @@ scores (
 )
 ```
 
-## 🔒 Security Features
+## Security Features
 
 ### Authentication Security
 - **JWT Tokens**: Secure, stateless authentication
@@ -332,7 +332,7 @@ scores (
 - **Data Sanitization**: Input/output data cleaning
 - **Access Control**: Role-based permissions
 
-## 🚀 Deployment Guide
+## Deployment Guide
 
 ### Heroku Deployment
 
@@ -424,7 +424,7 @@ npm run test:e2e
 4. Push to branch: `git push origin feature/new-feature`
 5. Submit pull request with detailed description
 
-## 🐛 Troubleshooting
+## Troubleshooting
 
 ### Common Development Issues
 
@@ -477,7 +477,7 @@ heroku pg:info --app your-app-name
 - Vue.js DevTools for frontend state inspection
 - Browser network tab for API request monitoring
 
-## 📈 Future Enhancements
+## Future Enhancements
 
 ### Planned Features
 - **Advanced Analytics**: Detailed performance insights and learning patterns
@@ -510,7 +510,7 @@ This project demonstrates real-world application development including:
 - Authentication and authorization systems
 - Production deployment and DevOps practices
 
-## 🤝 Contributing
+## Contributing
 
 We welcome contributions from developers of all skill levels! Here's how you can help:
 
@@ -530,19 +530,19 @@ We welcome contributions from developers of all skill levels! Here's how you can
 6. Push to your branch: `git push origin feature/amazing-feature`
 7. Open a Pull Request
 
-## 📄 License
+## License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
 ### MIT License Summary
-- ✅ Commercial use allowed
-- ✅ Modification allowed
-- ✅ Distribution allowed
-- ✅ Private use allowed
-- ❌ No warranty provided
-- ❌ No liability accepted
+- Commercial use allowed
+- Modification allowed
+- Distribution allowed
+- Private use allowed
+- No warranty provided
+- No liability accepted
 
-## 👥 Acknowledgments
+## Acknowledgments
 
 ### Special Thanks
 - **Flask Community**: For the excellent web framework
@@ -567,6 +567,6 @@ This project was inspired by the need for accessible, modern quiz management sys
 
 ---
 
-**Built with ❤️ for the education community**
+**Built with care for the education community**
 
 *This project represents a commitment to open-source education technology and modern web development practices. We believe in making quality educational tools accessible to everyone.* 
