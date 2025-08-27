@@ -920,11 +920,11 @@ def delete_question(question_id):
 def get_dashboard_stats():
     """Get dashboard statistics"""
     try:
-        # Check cache first
-        cache_key = 'admin:dashboard:stats'
-        cached = #redis_client.get(cache_key)
-        if cached:
-            return jsonify(json.loads(cached)), 200
+        # Check cache first (Redis disabled)
+        # cache_key = 'admin:dashboard:stats'
+        # cached = redis_client.get(cache_key)
+        # if cached:
+        #     return jsonify(json.loads(cached)), 200
         
         # Basic stats
         stats = {
@@ -992,8 +992,8 @@ def get_dashboard_stats():
             'data': activity_data
         }
         
-        # Cache for 5 minutes
-        #redis_client.setex(cache_key, 300, json.dumps(stats))
+        # Cache for 5 minutes (Redis disabled)
+        # redis_client.setex(cache_key, 300, json.dumps(stats))
         
         return jsonify(stats), 200
         
@@ -1083,8 +1083,8 @@ def clear_cache():
         data = request.get_json() or {}
         pattern = data.get('pattern', '*')
         
-        if not #redis_client:
-            return jsonify({'error': 'Redis not configured'}), 500
+        # Redis disabled
+        return jsonify({'error': 'Redis caching is currently disabled'}), 400
         
         # Safety check for clearing all cache
         if pattern == '*':
@@ -1094,13 +1094,13 @@ def clear_cache():
                     'required_field': 'confirm_clear_all: true'
                 }), 400
         
-        # Clear cache by pattern
-        keys = list(#redis_client.scan_iter(match=pattern))
+        # Clear cache by pattern (Redis disabled)
+        # keys = list(redis_client.scan_iter(match=pattern))
         deleted_count = 0
         
-        for key in keys:
-            #redis_client.delete(key)
-            deleted_count += 1
+        # for key in keys:
+        #     redis_client.delete(key)
+        #     deleted_count += 1
         
         return jsonify({
             'message': f'Cleared {deleted_count} cache keys',
