@@ -24,8 +24,12 @@ def create_app(config_class=Config):
     db.init_app(app)
     jwt.init_app(app)
     
-    # Configure CORS - Allow all origins for development
-    CORS(app, origins=['*'], supports_credentials=True)
+    # Configure CORS - Allow all origins for production deployment
+    CORS(app, 
+         origins=['*'], 
+         supports_credentials=True,
+         allow_headers=['Content-Type', 'Authorization'],
+         methods=['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'])
     
     # Initialize Redis
     global redis_client, limiter
