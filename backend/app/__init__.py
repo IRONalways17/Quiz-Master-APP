@@ -7,8 +7,8 @@ import redis
 import sys
 import os
 sys.path.append('..')
-from config import Config
-from app.database import db
+from backend.config import Config
+from backend.app.database import db
 
 # Initialize extensions
 jwt = JWTManager()
@@ -57,14 +57,14 @@ def create_app(config_class=Config):
     limiter.init_app(app)
     
     # Import models to ensure they're registered with SQLAlchemy
-    from app.models import User, Admin, Subject, Chapter, Quiz, Question, Score
+    from backend.app.models import User, Admin, Subject, Chapter, Quiz, Question, Score
     
     # Register blueprints
-    from app.routes.auth import auth_bp
-    from app.routes.admin import admin_bp
-    from app.routes.user import user_bp
-    from app.routes.quiz import quiz_bp
-    from app.routes.common import common_bp
+    from backend.app.routes.auth import auth_bp
+    from backend.app.routes.admin import admin_bp
+    from backend.app.routes.user import user_bp
+    from backend.app.routes.quiz import quiz_bp
+    from backend.app.routes.common import common_bp
     
     app.register_blueprint(auth_bp, url_prefix='/api/auth')
     app.register_blueprint(admin_bp, url_prefix='/api/admin')
