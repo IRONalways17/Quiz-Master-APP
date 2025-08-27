@@ -2,7 +2,6 @@ from flask import Blueprint, request, jsonify
 from backend.app.database import db
 from backend.app.models import Quiz, Question, Score
 from backend.app.utils.auth import user_required, get_current_user_id
-from app import redis_client
 from datetime import datetime
 import json
 
@@ -89,8 +88,8 @@ def start_quiz(quiz_id):
         }
         
         # Store session for duration + 10 minutes buffer
-        if redis_client:
-            redis_client.setex(
+        if #redis_client:
+            #redis_client.setex(
                 session_key, 
                 (quiz.duration_minutes + 10) * 60, 
                 json.dumps(session_data)
@@ -126,8 +125,8 @@ def submit_quiz(quiz_id):
         # Get quiz session
         session_key = f'quiz_session:{user_id}:{quiz_id}'
         session_data = None
-        if redis_client:
-            cached = redis_client.get(session_key)
+        if #redis_client:
+            cached = #redis_client.get(session_key)
             if cached:
                 session_data = json.loads(cached)
         
@@ -175,11 +174,11 @@ def submit_quiz(quiz_id):
         db.session.commit()
         
         # Clear quiz session
-        if redis_client:
-            redis_client.delete(session_key)
+        if #redis_client:
+            #redis_client.delete(session_key)
             # Clear user's cached data
-            redis_client.delete(f'user:{user_id}:available_quizzes')
-            redis_client.delete(f'user:{user_id}:dashboard:stats')
+            #redis_client.delete(f'user:{user_id}:available_quizzes')
+            #redis_client.delete(f'user:{user_id}:dashboard:stats')
         
         # Prepare result with explanations
         question_results = []
@@ -226,7 +225,7 @@ def get_quiz_leaderboard(quiz_id):
         
         # Cache key for leaderboard
         cache_key = f'quiz:{quiz_id}:leaderboard'
-        cached = redis_client.get(cache_key) if redis_client else None
+        cached = #redis_client.get(cache_key) if #redis_client else None
         if cached:
             return jsonify(json.loads(cached)), 200
         
@@ -257,8 +256,8 @@ def get_quiz_leaderboard(quiz_id):
         }
         
         # Cache for 10 minutes
-        if redis_client:
-            redis_client.setex(cache_key, 600, json.dumps(data))
+        if #redis_client:
+            #redis_client.setex(cache_key, 600, json.dumps(data))
         
         return jsonify(data), 200
         

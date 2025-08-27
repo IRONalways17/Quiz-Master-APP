@@ -81,7 +81,7 @@ def create_app(config_class=Config):
         create_default_admin()
     
     # Serve frontend static files
-    frontend_dist = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), '..', 'frontend', 'dist')
+    frontend_dist = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'static')
     
     @app.route('/', defaults={'path': ''})
     @app.route('/<path:path>')

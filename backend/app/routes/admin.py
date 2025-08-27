@@ -2,7 +2,6 @@ from flask import Blueprint, request, jsonify
 from backend.app.database import db
 from backend.app.models import User, Subject, Chapter, Quiz, Question, Score
 from backend.app.utils.auth import admin_required
-from app import redis_client
 from datetime import datetime, timedelta
 import json
 
@@ -12,17 +11,8 @@ admin_bp = Blueprint('admin', __name__)
 def clear_cache_pattern(pattern):
     """Clear Redis cache by pattern with improved error handling"""
     try:
-        if redis_client:
-            keys = list(redis_client.scan_iter(match=pattern))
-            deleted_count = 0
-            for key in keys:
-                try:
-                    redis_client.delete(key)
-                    deleted_count += 1
-                except Exception as e:
-                    print(f"Failed to delete cache key {key}: {e}")
-            print(f"Cleared {deleted_count} cache keys for pattern: {pattern}")
-            return deleted_count
+        # Redis temporarily disabled
+        print(f"Cache clearing disabled for pattern: {pattern}")
         return 0
     except Exception as e:
         print(f"Cache clear error for pattern {pattern}: {e}")
@@ -932,7 +922,7 @@ def get_dashboard_stats():
     try:
         # Check cache first
         cache_key = 'admin:dashboard:stats'
-        cached = redis_client.get(cache_key)
+        cached = #redis_client.get(cache_key)
         if cached:
             return jsonify(json.loads(cached)), 200
         
@@ -1003,7 +993,7 @@ def get_dashboard_stats():
         }
         
         # Cache for 5 minutes
-        redis_client.setex(cache_key, 300, json.dumps(stats))
+        #redis_client.setex(cache_key, 300, json.dumps(stats))
         
         return jsonify(stats), 200
         
@@ -1077,30 +1067,27 @@ def search():
 def get_cache_stats():
     """Get Redis cache statistics"""
     try:
-        if not redis_client:
-            return jsonify({'error': 'Redis not configured'}), 500
-        
-        # Get Redis info
-        info = redis_client.info()
+        # Redis temporarily disabled
+        return jsonify({'error': 'Redis cache is temporarily disabled'}), 503
         
         # Get cache key patterns
         cache_patterns = {
-            'users': len(list(redis_client.scan_iter(match='user:*'))),
-            'admin': len(list(redis_client.scan_iter(match='admin:*'))),
-            'subjects': len(list(redis_client.scan_iter(match='subjects:*'))),
-            'chapters': len(list(redis_client.scan_iter(match='chapters:*'))),
-            'quizzes': len(list(redis_client.scan_iter(match='quizzes:*'))),
-            'stats': len(list(redis_client.scan_iter(match='stats:*'))),
-            'global': len(list(redis_client.scan_iter(match='global:*')))
+            'users': len(list(#redis_client.scan_iter(match='user:*'))),
+            'admin': len(list(#redis_client.scan_iter(match='admin:*'))),
+            'subjects': len(list(#redis_client.scan_iter(match='subjects:*'))),
+            'chapters': len(list(#redis_client.scan_iter(match='chapters:*'))),
+            'quizzes': len(list(#redis_client.scan_iter(match='quizzes:*'))),
+            'stats': len(list(#redis_client.scan_iter(match='stats:*'))),
+            'global': len(list(#redis_client.scan_iter(match='global:*')))
         }
         
         # Get sample keys with TTL
-        all_keys = list(redis_client.scan_iter())
+        all_keys = list(#redis_client.scan_iter())
         sample_keys = []
         for key in all_keys[:20]:  # Show first 20 keys
             try:
-                ttl = redis_client.ttl(key)
-                size = len(str(redis_client.get(key) or ''))
+                ttl = #redis_client.ttl(key)
+                size = len(str(#redis_client.get(key) or ''))
                 sample_keys.append({
                     'key': key,
                     'ttl': ttl if ttl > 0 else 'persistent',
@@ -1144,7 +1131,7 @@ def clear_cache():
         data = request.get_json() or {}
         pattern = data.get('pattern', '*')
         
-        if not redis_client:
+        if not #redis_client:
             return jsonify({'error': 'Redis not configured'}), 500
         
         # Safety check for clearing all cache
@@ -1156,11 +1143,11 @@ def clear_cache():
                 }), 400
         
         # Clear cache by pattern
-        keys = list(redis_client.scan_iter(match=pattern))
+        keys = list(#redis_client.scan_iter(match=pattern))
         deleted_count = 0
         
         for key in keys:
-            redis_client.delete(key)
+            #redis_client.delete(key)
             deleted_count += 1
         
         return jsonify({

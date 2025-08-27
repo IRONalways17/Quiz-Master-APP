@@ -1,12 +1,15 @@
-from flask import Blueprint, request, jsonify
+from flask import Blueprint, request, jsonify, current_app
 from backend.app.database import db
 from backend.app.models import Subject, Chapter, Quiz, Score, Reminder, User
 from backend.app.utils.auth import user_required, get_current_user_id
-from app import redis_client
 import json
 from datetime import datetime
 
 user_bp = Blueprint('user', __name__)
+
+def get_#redis_client():
+    """Get redis client from current app"""
+    return None  # Temporarily disabled for deployment
 
 @user_bp.route('/recent-activity', methods=['GET'])
 @user_required
@@ -232,8 +235,9 @@ def get_user_available_quizzes():
     user_id = get_current_user_id()
     
     cache_key = f'user:{user_id}:available_quizzes'
-    if redis_client:
-        cached = redis_client.get(cache_key)
+    #redis_client = get_#redis_client()
+    if #redis_client:
+        cached = #redis_client.get(cache_key)
         if cached:
             return jsonify(json.loads(cached))
     
@@ -257,8 +261,8 @@ def get_user_available_quizzes():
         available_quizzes.append(quiz_dict)
     
     data = {'quizzes': available_quizzes}
-    if redis_client:
-        redis_client.setex(cache_key, 300, json.dumps(data))
+    if #redis_client:
+        #redis_client.setex(cache_key, 300, json.dumps(data))
     
     return jsonify(data)
 
@@ -451,7 +455,7 @@ def get_user_stats():
         
         # Cache key specific to user
         cache_key = f'user:{user_id}:dashboard:stats'
-        cached = redis_client.get(cache_key) if redis_client else None
+        cached = #redis_client.get(cache_key) if #redis_client else None
         if cached:
             return jsonify(json.loads(cached)), 200
         
@@ -485,8 +489,8 @@ def get_user_stats():
         }
         
         # Cache for 5 minutes
-        if redis_client:
-            redis_client.setex(cache_key, 300, json.dumps(stats))
+        if #redis_client:
+            #redis_client.setex(cache_key, 300, json.dumps(stats))
         
         return jsonify(stats), 200
         
@@ -503,7 +507,7 @@ def get_performance_trend():
         
         # Cache key specific to user
         cache_key = f'user:{user_id}:performance:trend'
-        cached = redis_client.get(cache_key) if redis_client else None
+        cached = #redis_client.get(cache_key) if #redis_client else None
         if cached:
             return jsonify(json.loads(cached)), 200
         
@@ -540,8 +544,8 @@ def get_performance_trend():
         }
         
         # Cache for 10 minutes (shorter since this is attempt-based)
-        if redis_client:
-            redis_client.setex(cache_key, 600, json.dumps(result))
+        if #redis_client:
+            #redis_client.setex(cache_key, 600, json.dumps(result))
         
         return jsonify(result), 200
         
@@ -890,9 +894,9 @@ def submit_quiz(quiz_slug):
         db.session.commit()
         
         # Clear cache
-        if redis_client:
-            redis_client.delete(f'user:{user_id}:available_quizzes')
-            redis_client.delete(f'user:{user_id}:dashboard:stats')
+        if #redis_client:
+            #redis_client.delete(f'user:{user_id}:available_quizzes')
+            #redis_client.delete(f'user:{user_id}:dashboard:stats')
         
         return jsonify({
             'message': 'Quiz submitted successfully',
@@ -968,9 +972,9 @@ def submit_quiz_by_id(quiz_id):
         db.session.commit()
         
         # Clear cache
-        if redis_client:
-            redis_client.delete(f'user:{user_id}:available_quizzes')
-            redis_client.delete(f'user:{user_id}:dashboard:stats')
+        if #redis_client:
+            #redis_client.delete(f'user:{user_id}:available_quizzes')
+            #redis_client.delete(f'user:{user_id}:dashboard:stats')
         
         return jsonify({
             'message': 'Quiz submitted successfully',

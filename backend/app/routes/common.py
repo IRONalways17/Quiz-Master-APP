@@ -5,7 +5,6 @@ from backend.app.utils.auth import jwt_required_custom, get_jwt
 from sqlalchemy import or_
 from flask import jsonify
 from backend.app.database import db
-from app import redis_client
 from celery_app import celery
 import redis
 from sqlalchemy import text
@@ -40,18 +39,11 @@ def health_check():
     
     # Test Redis connection
     try:
-        if redis_client:
-            redis_client.ping()
-            health_status['services']['redis'] = {
-                'status': 'healthy',
-                'message': 'Redis connection successful'
-            }
-        else:
-            health_status['services']['redis'] = {
-                'status': 'unhealthy',
-                'message': 'Redis client not configured'
-            }
-            health_status['status'] = 'unhealthy'
+        # Redis temporarily disabled
+        health_status['services']['redis'] = {
+            'status': 'disabled',
+            'message': 'Redis temporarily disabled'
+        }
     except Exception as e:
         health_status['services']['redis'] = {
             'status': 'unhealthy',
@@ -187,12 +179,11 @@ def global_leaderboard():
     """Get global leaderboard across all quizzes"""
     try:
         from backend.app.models import Score
-        from app import redis_client
         import json
         
-        # Check cache
+        # Check cache (disabled)
         cache_key = 'global:leaderboard'
-        cached = redis_client.get(cache_key) if redis_client else None
+        cached = None  # Redis temporarily disabled
         if cached:
             return jsonify(json.loads(cached)), 200
         
@@ -229,9 +220,8 @@ def global_leaderboard():
         
         data = {'leaderboard': leaderboard}
         
-        # Cache for 30 minutes
-        if redis_client:
-            redis_client.setex(cache_key, 1800, json.dumps(data))
+        # Cache for 30 minutes (disabled)
+        # Redis temporarily disabled
         
         return jsonify(data), 200
         
